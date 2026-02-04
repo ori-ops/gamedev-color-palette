@@ -1,0 +1,35 @@
+---
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Generate perfect color palettes for your game development projects" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="keywords" content="color palette generator, game dev, pixel art, color harmony, gamedev tools">
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:type" content="website">
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">
+    <ThemeToggle />
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<script>
+  import '../styles/global.css';
+</script>

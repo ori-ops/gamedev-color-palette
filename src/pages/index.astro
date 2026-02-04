@@ -1,0 +1,424 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GamePreview from '../components/GamePreview.astro';
+---
+
+<Layout title="GameDev Color Palette Generator | Perfect Harmonies for Indie Games">
+  <div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-2">
+        🎨 GameDev Color Palette Generator
+      </h1>
+      <p class="text-lg text-gray-600 dark:text-gray-300">
+        Create perfect color harmonies for your indie games, pixel art, and Ludum Dare projects
+      </p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-6xl mx-auto grid gap-8 lg:grid-cols-3">
+      <!-- Left: Color Picker & Controls -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Color Input</h2>
+        
+        <!-- Color Picker -->
+        <div class="mb-6">
+          <label for="colorPicker" class="block text-sm font-medium text-gray-700 mb-2">
+            Pick a base color:
+          </label>
+          <div class="flex items-center gap-4">
+            <input 
+              type="color" 
+              id="colorPicker" 
+              value="#ff6450"
+              class="w-16 h-16 rounded-lg border-2 border-gray-300 cursor-pointer"
+            />
+            <input 
+              type="text" 
+              id="hexInput" 
+              value="#ff6450"
+              placeholder="#ff6450"
+              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              pattern="^#[0-9A-Fa-f]{6}$"
+            />
+          </div>
+        </div>
+
+        <!-- Harmony Type Selection -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Harmony Type:
+          </label>
+          <select 
+            id="harmonyType" 
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="complementary">Complementary</option>
+            <option value="triadic">Triadic</option>
+            <option value="analogous">Analogous</option>
+            <option value="splitComplementary">Split-Complementary</option>
+            <option value="tetradic">Tetradic</option>
+          </select>
+        </div>
+
+        <!-- Generate Button -->
+        <button 
+          id="generateBtn"
+          class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+        >
+          ✨ Generate Palette
+        </button>
+      </div>
+
+      <!-- Right: Generated Palette -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Generated Palette</h2>
+        
+        <!-- Palette Display -->
+        <div id="paletteDisplay" class="grid grid-cols-1 gap-4 mb-6">
+          <!-- Colors will be generated here by JS -->
+          <div class="text-center text-gray-500 py-8">
+            Click "Generate Palette" to see colors
+          </div>
+        </div>
+
+        <!-- Export Options -->
+        <div class="border-t dark:border-gray-600 pt-4">
+          <h3 class="text-lg font-medium mb-3 text-gray-800 dark:text-white">Export</h3>
+          <div class="grid grid-cols-2 gap-2">
+            <button 
+              id="copyCSS" 
+              class="bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded-lg transition-colors text-sm"
+            >
+              📋 Copy CSS
+            </button>
+            <button 
+              id="copyHex" 
+              class="bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded-lg transition-colors text-sm"
+            >
+              📋 Copy HEX
+            </button>
+            <button 
+              id="downloadGPL" 
+              class="bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded-lg transition-colors text-sm"
+            >
+              💾 .gpl (Aseprite)
+            </button>
+            <button 
+              id="shareURL" 
+              class="bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded-lg transition-colors text-sm"
+            >
+              🔗 Share URL
+            </button>
+            <button 
+              id="savePalette" 
+              class="bg-green-100 hover:bg-green-200 dark:bg-green-800 dark:hover:bg-green-700 text-green-800 dark:text-green-100 px-4 py-2 rounded-lg transition-colors text-sm col-span-2"
+            >
+              💾 Save Palette
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Preview -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Game Preview</h2>
+        <div id="gamePreviewContainer">
+          <GamePreview palette={['#ff6450', '#52ebff', '#333333', '#ffffff', '#777777']} />
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <section class="mt-16 text-center">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8">Perfect for Game Developers</h2>
+      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div class="bg-white rounded-lg p-6 shadow-md">
+          <div class="text-2xl mb-3">🎮</div>
+          <h3 class="font-semibold mb-2">Indie Games</h3>
+          <p class="text-gray-600 text-sm">Harmonious colors that work great in pixel art and indie game aesthetics</p>
+        </div>
+        <div class="bg-white rounded-lg p-6 shadow-md">
+          <div class="text-2xl mb-3">⏰</div>
+          <h3 class="font-semibold mb-2">Game Jams</h3>
+          <p class="text-gray-600 text-sm">Quick palette generation for Ludum Dare and other game jam time constraints</p>
+        </div>
+        <div class="bg-white rounded-lg p-6 shadow-md">
+          <div class="text-2xl mb-3">🛠️</div>
+          <h3 class="font-semibold mb-2">Tool Integration</h3>
+          <p class="text-gray-600 text-sm">Export to Aseprite (.gpl), CSS, or copy as HEX codes for any engine</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  // Color conversion utilities
+  function hexToHsl(hex: string): [number, number, number] {
+    const r = parseInt(hex.substr(1, 2), 16) / 255;
+    const g = parseInt(hex.substr(3, 2), 16) / 255;
+    const b = parseInt(hex.substr(5, 2), 16) / 255;
+    
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+    
+    if (max === min) {
+      h = s = 0; // achromatic
+    } else {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h /= 6;
+    }
+    
+    return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+  }
+  
+  function hslToHex(h: number, s: number, l: number): string {
+    h = h / 360;
+    s = s / 100;
+    l = l / 100;
+    
+    const hue2rgb = (p: number, q: number, t: number): number => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q - p) * 6 * t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      return p;
+    };
+    
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    
+    const r = Math.round(hue2rgb(p, q, h + 1/3) * 255);
+    const g = Math.round(hue2rgb(p, q, h) * 255);
+    const b = Math.round(hue2rgb(p, q, h - 1/3) * 255);
+    
+    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+  }
+  
+  // Harmony algorithms
+  const harmonyFunctions = {
+    complementary: (hue: number) => [hue, (hue + 180) % 360],
+    triadic: (hue: number) => [hue, (hue + 120) % 360, (hue + 240) % 360],
+    analogous: (hue: number) => [(hue - 30 + 360) % 360, hue, (hue + 30) % 360],
+    splitComplementary: (hue: number) => {
+      const complement = (hue + 180) % 360;
+      return [hue, (complement - 30 + 360) % 360, (complement + 30) % 360];
+    },
+    tetradic: (hue: number) => [hue, (hue + 90) % 360, (hue + 180) % 360, (hue + 270) % 360]
+  };
+  
+  // Generate palette
+  function generatePalette(baseHex: string, harmonyType: string): Array<{hex: string, hsl: [number, number, number]}> {
+    const [h, s, l] = hexToHsl(baseHex);
+    const hues = harmonyFunctions[harmonyType](h);
+    
+    return hues.map(hue => ({
+      hex: hslToHex(hue, s, l),
+      hsl: [hue, s, l]
+    }));
+  }
+  
+  // Display palette
+  function displayPalette(palette: Array<{hex: string, hsl: [number, number, number]}>) {
+    currentPalette = palette; // Store for export functions
+    
+    const display = document.getElementById('paletteDisplay');
+    if (!display) return;
+    
+    display.innerHTML = palette.map((color, index) => `
+      <div class="flex items-center bg-gray-50 rounded-lg p-4">
+        <div 
+          class="w-16 h-16 rounded-lg border-2 border-gray-200 mr-4 cursor-pointer"
+          style="background-color: ${color.hex}"
+          onclick="copyToClipboard('${color.hex}')"
+          title="Click to copy ${color.hex}"
+        ></div>
+        <div class="flex-1">
+          <div class="font-mono text-lg font-bold">${color.hex.toUpperCase()}</div>
+          <div class="text-sm text-gray-600">HSL(${color.hsl[0]}, ${color.hsl[1]}%, ${color.hsl[2]}%)</div>
+          <div class="text-xs text-gray-500">Click color to copy</div>
+        </div>
+      </div>
+    `).join('');
+    
+    // Update game preview
+    updateGamePreview(palette.map(p => p.hex));
+  }
+  
+  // Update game preview with new colors
+  function updateGamePreview(colors: string[]) {
+    // This will be implemented to dynamically update the preview
+    // For now, we'll use CSS custom properties
+    const root = document.documentElement;
+    colors.forEach((color, index) => {
+      root.style.setProperty(`--preview-color-${index + 1}`, color);
+    });
+  }
+  
+  // Copy to clipboard
+  function copyToClipboard(text: string) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('Copied to clipboard!');
+    });
+  }
+  
+  // Show toast notification
+  function showToast(message: string) {
+    const toast = document.createElement('div');
+    toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+  }
+  
+  // Export functions
+  let currentPalette: Array<{hex: string, hsl: [number, number, number]}> = [];
+  
+  // Local storage for palettes
+  function savePalette() {
+    if (currentPalette.length === 0) return;
+    
+    const saved = JSON.parse(localStorage.getItem('savedPalettes') || '[]');
+    const paletteData = {
+      colors: currentPalette.map(p => p.hex),
+      timestamp: Date.now(),
+      name: `Palette ${saved.length + 1}`
+    };
+    
+    saved.unshift(paletteData);
+    if (saved.length > 10) saved.pop(); // Keep only 10 recent palettes
+    
+    localStorage.setItem('savedPalettes', JSON.stringify(saved));
+    showToast('Palette saved!');
+  }
+  
+  function copyPaletteAsCSS() {
+    if (currentPalette.length === 0) return;
+    
+    const css = [
+      ':root {',
+      ...currentPalette.map((color, index) => `  --color-${index + 1}: ${color.hex};`),
+      '  /* Usage: background-color: var(--color-1); */',
+      '}'
+    ].join('\n');
+    
+    copyToClipboard(css);
+  }
+  
+  function copyPaletteAsHex() {
+    if (currentPalette.length === 0) return;
+    
+    const hexList = currentPalette.map(color => color.hex).join(', ');
+    copyToClipboard(hexList);
+  }
+  
+  function downloadAsGPL() {
+    if (currentPalette.length === 0) return;
+    
+    const gpl = [
+      'GIMP Palette',
+      'Name: GameDev Palette',
+      '#',
+      ...currentPalette.map(color => {
+        const r = parseInt(color.hex.substr(1, 2), 16);
+        const g = parseInt(color.hex.substr(3, 2), 16);
+        const b = parseInt(color.hex.substr(5, 2), 16);
+        return `${r.toString().padStart(3)} ${g.toString().padStart(3)} ${b.toString().padStart(3)}  ${color.hex}`;
+      })
+    ].join('\n');
+    
+    const blob = new Blob([gpl], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'gamedev-palette.gpl';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  
+  function shareURL() {
+    if (currentPalette.length === 0) return;
+    
+    const colors = currentPalette.map(c => c.hex.substr(1)).join('-');
+    const shareUrl = `${window.location.origin}?colors=${colors}`;
+    copyToClipboard(shareUrl);
+    showToast('Shareable URL copied!');
+  }
+  
+  // Load palette from URL
+  function loadPaletteFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const colors = params.get('colors');
+    
+    if (colors) {
+      const colorArray = colors.split('-').map(c => `#${c}`);
+      if (colorArray.length > 0 && colorArray.every(c => /^#[0-9A-Fa-f]{6}$/.test(c))) {
+        const palette = colorArray.map(hex => ({ hex, hsl: hexToHsl(hex) }));
+        displayPalette(palette);
+        
+        // Update inputs to first color
+        const firstColor = colorArray[0];
+        (document.getElementById('colorPicker') as HTMLInputElement).value = firstColor;
+        (document.getElementById('hexInput') as HTMLInputElement).value = firstColor;
+        
+        return true; // Successfully loaded from URL
+      }
+    }
+    
+    return false; // No valid URL palette
+  }
+
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', () => {
+    const colorPicker = document.getElementById('colorPicker') as HTMLInputElement;
+    const hexInput = document.getElementById('hexInput') as HTMLInputElement;
+    const harmonyType = document.getElementById('harmonyType') as HTMLSelectElement;
+    const generateBtn = document.getElementById('generateBtn') as HTMLButtonElement;
+    
+    // Sync color picker and hex input
+    colorPicker?.addEventListener('input', (e) => {
+      hexInput.value = (e.target as HTMLInputElement).value;
+    });
+    
+    hexInput?.addEventListener('input', (e) => {
+      const value = (e.target as HTMLInputElement).value;
+      if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+        colorPicker.value = value;
+      }
+    });
+    
+    // Generate palette
+    generateBtn?.addEventListener('click', () => {
+      const baseColor = hexInput.value;
+      const harmony = harmonyType.value;
+      const palette = generatePalette(baseColor, harmony);
+      displayPalette(palette);
+    });
+    
+    // Export button event listeners
+    document.getElementById('copyCSS')?.addEventListener('click', copyPaletteAsCSS);
+    document.getElementById('copyHex')?.addEventListener('click', copyPaletteAsHex);
+    document.getElementById('downloadGPL')?.addEventListener('click', downloadAsGPL);
+    document.getElementById('shareURL')?.addEventListener('click', shareURL);
+    document.getElementById('savePalette')?.addEventListener('click', savePalette);
+    
+    // Load palette from URL or generate initial palette
+    if (!loadPaletteFromURL()) {
+      const initialPalette = generatePalette('#ff6450', 'complementary');
+      displayPalette(initialPalette);
+    }
+  });
+  
+  // Global function for onclick handlers
+  (window as any).copyToClipboard = copyToClipboard;
+</script>

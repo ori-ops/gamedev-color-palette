@@ -1,0 +1,98 @@
+---
+interface Props {
+  palette: string[];
+}
+
+const { palette = ['#ff6450', '#52ebff', '#333333', '#ffffff', '#777777'] } = Astro.props;
+---
+
+<div class="bg-gray-100 rounded-lg p-6">
+  <h3 class="text-lg font-semibold mb-4">Game UI Preview</h3>
+  
+  <!-- Mock Game Scene -->
+  <div class="bg-gray-900 rounded-lg p-4 relative overflow-hidden" style="min-height: 200px;">
+    <!-- Sky/Background -->
+    <div 
+      class="absolute inset-0 rounded-lg"
+      style={`background: linear-gradient(180deg, ${palette[1] || '#52ebff'} 0%, ${palette[0] || '#ff6450'} 100%);`}
+    ></div>
+    
+    <!-- Ground -->
+    <div 
+      class="absolute bottom-0 left-0 right-0 h-16 rounded-b-lg"
+      style={`background-color: ${palette[2] || '#333333'};`}
+    ></div>
+    
+    <!-- Player Character (simple square) -->
+    <div 
+      class="absolute bottom-16 left-8 w-8 h-8 rounded"
+      style={`background-color: ${palette[3] || '#ffffff'}; border: 2px solid ${palette[4] || '#777777'};`}
+    ></div>
+    
+    <!-- UI Elements -->
+    <div class="absolute top-4 left-4 right-4">
+      <!-- Health Bar -->
+      <div class="flex items-center mb-2">
+        <span class="text-xs font-bold mr-2" style={`color: ${palette[3] || '#ffffff'};`}>HP:</span>
+        <div class="flex-1 h-2 bg-black bg-opacity-30 rounded">
+          <div 
+            class="h-full w-3/4 rounded"
+            style={`background-color: ${palette[0] || '#ff6450'};`}
+          ></div>
+        </div>
+      </div>
+      
+      <!-- Score -->
+      <div class="text-right">
+        <span class="text-sm font-bold" style={`color: ${palette[3] || '#ffffff'};`}>Score: 1234</span>
+      </div>
+    </div>
+    
+    <!-- Collectible Items -->
+    <div 
+      class="absolute bottom-24 right-12 w-4 h-4 rounded-full"
+      style={`background-color: ${palette[1] || '#52ebff'};`}
+    ></div>
+    <div 
+      class="absolute bottom-20 right-20 w-4 h-4 rounded-full"
+      style={`background-color: ${palette[0] || '#ff6450'};`}
+    ></div>
+  </div>
+  
+  <!-- Pixel Art Preview -->
+  <div class="mt-4">
+    <h4 class="text-sm font-medium mb-2">Pixel Art Color Test</h4>
+    <div class="grid grid-cols-8 gap-1 w-32">
+      {palette.map(color => (
+        <div 
+          class="aspect-square border border-gray-300"
+          style={`background-color: ${color};`}
+        ></div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Add subtle animations to make it feel more game-like */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-3px); }
+  }
+  
+  .animate-float {
+    animation: float 2s ease-in-out infinite;
+  }
+</style>
+
+<script>
+  // Add some interactivity to the game preview
+  document.addEventListener('DOMContentLoaded', () => {
+    const collectibles = document.querySelectorAll('[class*="bottom-2"]');
+    collectibles.forEach(item => {
+      if (item instanceof HTMLElement) {
+        item.classList.add('animate-float');
+      }
+    });
+  });
+</script>
